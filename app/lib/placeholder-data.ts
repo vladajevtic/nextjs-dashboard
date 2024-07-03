@@ -46,6 +46,18 @@ const customers = [
     email: 'balazs@orban.com',
     image_url: '/customers/balazs-orban.png',
   },
+  {
+    id: 'd6e15727-9fe1-4961-8c5b-ea44a9bd81bb',
+    name: 'Vlada Jevtic',
+    email: 'vlada@rabbit.com',
+    image_url: '/customers/evil-rabbit.png',
+  },
+  {
+    id: 'd6e15727-9fe1-4961-8c5b-ea44a9bd81bb',
+    name: 'Toma Tomic',
+    email: 'toma@rabbit.com',
+    image_url: '/customers/evil-rabbit.png',
+  },
 ];
 
 const invoices = [
