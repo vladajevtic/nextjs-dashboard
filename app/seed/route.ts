@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { db } from '@vercel/postgres';
-import { invoices, customers, revenue, users } from '../lib/placeholder-data';
+import { invoices, customers, revenue, users, chartData } from '../lib/placeholder-data';
 
 const client = await db.connect();
 
@@ -101,6 +101,28 @@ async function seedRevenue() {
   return insertedRevenue;
 }
 
+async function seedChartData() {
+  await client.sql`
+    CREATE TABLE IF NOT EXISTS chartdata (
+      month VARCHAR(255) NOT NULL UNIQUE,
+      desktop INT NOT NULL,
+      mobile INT NOT NULL
+    );
+  `;
+
+  const insertedChartData = await Promise.all(
+    chartData.map(
+      (rev) => client.sql`
+        INSERT INTO chartdata (month, desktop, mobile)
+        VALUES (${rev.month}, ${rev.desktop}, ${rev.mobile})
+        ON CONFLICT (month) DO NOTHING;
+      `,
+    ),
+  );
+
+  return insertedChartData;
+}
+
 export async function GET() {
   try {
     await client.sql`BEGIN`;
@@ -108,6 +130,7 @@ export async function GET() {
     await seedCustomers();
     await seedInvoices();
     await seedRevenue();
+    await seedChartData();
     await client.sql`COMMIT`;
 
     return Response.json({ message: 'Database seeded successfully' });
@@ -116,3 +139,4 @@ export async function GET() {
     return Response.json({ error }, { status: 500 });
   }
 }
+

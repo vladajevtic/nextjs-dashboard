@@ -31,6 +31,12 @@ export type Revenue = {
   revenue: number;
 };
 
+export type ChartData = {
+  month: string;
+  desktop: number;
+  mobile: number;
+};
+
 export type LatestInvoice = {
   id: string;
   name: string;

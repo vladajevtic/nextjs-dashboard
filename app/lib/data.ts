@@ -6,6 +6,7 @@ import {
   InvoicesTable,
   LatestInvoiceRaw,
   Revenue,
+  ChartData,
 } from './definitions';
 import { formatCurrency } from './utils';
 
@@ -27,6 +28,25 @@ export async function fetchRevenue() {
     throw new Error('Failed to fetch revenue data.');
   }
 }
+
+export async function fetchChartData() {
+  try {
+    // Artificially delay a response for demo purposes.
+    // Don't do this in production :)
+    console.log('Fetching ChartData data...');
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
+    const data = await sql<ChartData>`SELECT * FROM chartdata`;
+
+    console.log('Data fetch completed after 3 seconds.');
+
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch chartdata data.');
+  }
+}
+
 
 export async function fetchLatestInvoices() {
   try {
